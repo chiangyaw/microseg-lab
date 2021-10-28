@@ -50,6 +50,8 @@ sudo apt-get -y install nmap net-tools mariadb-client && \
 curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl" && \
 chmod +x kubectl && \
 sudo mv kubectl /usr/local/bin/ && \
+sudo curl -o /usr/local/bin/apoctl https://download.aporeto.com/prismacloud/app/apoctl/linux/apoctl && \
+sudo chmod +x /usr/local/bin/apoctl && \
 sudo echo "done"
 EOF
 
