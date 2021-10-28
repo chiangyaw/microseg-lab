@@ -39,11 +39,6 @@ resource "azurerm_linux_virtual_machine" "bastian" {
   admin_username      = var.adminUsername
   admin_password      = var.adminPassword
   
-#  admin_ssh_key {
-#    username   = var.adminUsername
-#    public_key = file(var.ssh_public_key)
-#  }
-
   network_interface_ids = [azurerm_network_interface.bastian_eth0.id]
 
   os_disk {
@@ -129,7 +124,6 @@ resource "azurerm_linux_virtual_machine" "bastian" {
     host     = azurerm_public_ip.bastian_pip.ip_address
     user     = var.adminUsername
     password = var.adminPassword
-    # private_key = file(var.private_key_path)
   }
 
   depends_on = [

@@ -27,11 +27,6 @@ resource "azurerm_linux_virtual_machine" "mariadb" {
   disable_password_authentication = false
   admin_username      = var.adminUsername
   admin_password      = var.adminPassword
-  
-#  admin_ssh_key {
-#    username   = var.adminUsername
-#    public_key = file(var.ssh_public_key)
-#  }
 
   network_interface_ids = [azurerm_network_interface.mariadb_eth0.id]
 
