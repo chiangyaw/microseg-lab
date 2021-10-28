@@ -1,0 +1,114 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: victim
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: struts
+  labels:
+    name: struts
+  namespace: victim
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      name: struts
+  template:
+    metadata:
+      labels:
+        name: struts
+    spec:
+      containers:
+        - name: struts
+          image: piesecurity/apache-struts2-cve-2017-5638
+          resources:
+            requests:
+              cpu: 100m
+              memory: 100Mi
+          ports:
+            - name: struts
+              containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: struts
+  labels:
+    name: struts
+  namespace: victim
+spec:
+  ports:
+    - port: 8080
+      targetPort: 8080
+  selector:
+    name: struts
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: db
+  labels:
+    name: db
+  namespace: victim
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      name: db
+  template:
+    metadata:
+      labels:
+        name: db
+    spec:
+      containers:
+        - name: db
+          image: mysql:5.6
+          env:
+            - name: MYSQL_ROOT_PASSWORD
+              value: password
+          ports:
+            - name: db
+              containerPort: 3306
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: db
+  labels:
+    name: db
+  namespace: victim
+spec:
+  ports:
+    - port: 3306
+      targetPort: 3306
+  selector:
+    name: db
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: metasploitable2-rc
+  labels:
+    name: metasploitable2
+  namespace: victim
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      name: metasploitable2
+  template:
+    metadata:
+      labels:
+        name: metasploitable2
+    spec:
+      containers:
+        - name: metasploitable2-container
+          image: tleemcjr/metasploitable2:latest
+          command: ["/bin/sh"]
+          tty: true
+          args:
+            - "-c"
+            - |
+              /bin/services.sh && bash

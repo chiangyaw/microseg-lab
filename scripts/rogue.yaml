@@ -1,0 +1,45 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: rogue
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: metasploit-rc
+  labels:
+    name: metasploit
+  namespace: rogue
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      name: metasploit
+  template:
+    metadata:
+      labels:
+        name: metasploit
+    spec:
+      containers:
+        - name: metasploit-container
+          image: sauravbrahma/metasploit_image:latest
+          tty: true
+          command: ["/bin/sh"]
+          args:
+            - "-c"
+            - |
+              sudo service postgresql start && /bin/bash
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: metasploit
+  labels:
+    name: metasploit
+  namespace: rogue
+spec:
+  ports:
+    - port: 4444
+      targetPort: 4444
+  selector:
+    name: metasploit
