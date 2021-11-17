@@ -80,12 +80,12 @@ resource "azurerm_linux_virtual_machine" "bastian" {
 
   provisioner "file" {
     source      = "${var.folder_scripts}/k8s-get-pods.sh"
-    destination = "/tmp/k8s.sh"
+    destination = "/tmp/k8s-get-pods.sh"
   }
 
   provisioner "file" {
     source      = "${var.folder_scripts}/k8s-get-services.sh"
-    destination = "/tmp/k8s.sh"
+    destination = "/tmp/k8s-get-services.sh"
   }
   
   provisioner "file" {
