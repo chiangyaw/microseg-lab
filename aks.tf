@@ -3,7 +3,7 @@ resource "azurerm_kubernetes_cluster" "k8s" {
     location            = azurerm_resource_group.main.location
     resource_group_name = azurerm_resource_group.main.name
     dns_prefix          = "${var.dns_prefix}-${random_id.randomId.hex}"
-
+    role_based_access_control_enabled = true
     default_node_pool {
       # default_node_pool name must start with a lowercase letter, have max length of 12, and only have characters a-z0-9.
       name               = "prismacloud"
@@ -12,7 +12,7 @@ resource "azurerm_kubernetes_cluster" "k8s" {
       type               = "VirtualMachineScaleSets"
       os_disk_size_gb    = 40
       os_disk_type       = "Managed"
-      availability_zones = ["1", "2", "3"]
+      zones = ["1", "2", "3"]
 
       tags = {
         RunStatus       = "NOSTOP"
@@ -37,10 +37,10 @@ resource "azurerm_kubernetes_cluster" "k8s" {
       docker_bridge_cidr = "172.17.0.1/16"
     }
 
-    role_based_access_control {
-      enabled = true
-    }
-
+    # role_based_access_control {
+    #   enabled = true
+    # }
+    
     tags = {
         RunStatus       = "NOSTOP"
         StoreStatus     = "DND"
