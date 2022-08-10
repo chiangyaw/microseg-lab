@@ -9,7 +9,7 @@ AllowedSourceIPRange = "0.0.0.0/0"
 
 # The admin username and password to access the VMs
 adminUsername = "paloalto"
-adminPassword = "Cpwins1!"
+adminPassword = "p@lo@lto"
 
 # The number of nodes in the K8s cluster
 node_count = 2
